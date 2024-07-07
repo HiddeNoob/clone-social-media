@@ -1,0 +1,15 @@
+{
+  "name": "twitter-app",
+  "version": "1.0.0",
+  "description": "a app that connects to aws api and uses dynomo db",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "type": "module",
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "express": "^4.19.2"
+  }
+}
