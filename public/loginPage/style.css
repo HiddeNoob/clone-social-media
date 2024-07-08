@@ -6,6 +6,7 @@ body {
     align-items: center;
     height: 100vh;
     margin: 0;
+    flex-direction: column;
 }
 
 form {
@@ -43,4 +44,11 @@ button[type="submit"] {
 
 button[type="submit"]:hover {
     background-color: #45a049;
+}
+
+.error{
+    color: red;
+    font-size: 1rem;
+    margin-top: 5px;
+
 }
