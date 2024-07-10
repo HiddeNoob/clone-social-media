@@ -74,3 +74,14 @@ footer {
     text-align: center;
     margin-top: 20px;
 }
+
+.loading {
+    margin-top: 20px;
+    height: 30px;
+}
+
+.error{
+    width: fit-content;
+    color: red;
+    border: 2px solid red;
+}

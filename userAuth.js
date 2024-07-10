@@ -1,32 +1,37 @@
 import {generateAccessToken} from "./jwt.js";
 import {getUser} from "./public/api/api.js";
+import cookieParser from "cookie-parser";
 
 
 export default async function userAuth(req, res,next){
     const username = req.body.username;
     const password = req.body.password;
-    const response = await getUser(username, password);
-    const httpStatus = response.status;
-    const userInfo = await response.json();
     /*
     user info architecture:
-        response: [
+    response: [
         {
-        isOnline: false,
-        password: 'admin',
-        username: 'admin',
-        createTimestamp: 1720307103,
-        tweets: [Array]
-        }
-    ]
-    
+            isOnline: false,
+            password: 'admin',
+            username: 'admin',
+            createTimestamp: 1720307103,
+            tweets: [Array]
+            }
+            ]
+            
     */
-    if (httpStatus == 200 ) {
+   try{
+    const promise = await getUser(username, password);
+    const userInfo = await promise.json();
+    const httpStatus = promise.status;
+    if(promise.ok){
         const token = generateAccessToken({username: username, password: password});
-        res.redirect('/home?token='+token);
-
+        res.cookie('token', token, {httpOnly: true});
+        res.redirect('home');
     }else{
-        sendError(res,httpStatus);
+        sendError(res,httpStatus)
+    }
+    }catch(e){
+        sendError(res,null);
     }
 
 }

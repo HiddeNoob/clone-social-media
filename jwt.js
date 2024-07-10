@@ -2,6 +2,7 @@ import jwt from "jsonwebtoken";
 import { dirname } from "path";
 import { fileURLToPath } from "url";
 
+
 const __dirname = dirname(fileURLToPath(import.meta.url));
 
 const token_secret =
@@ -12,13 +13,16 @@ export function generateAccessToken(userInfo) {
 }
 
 export function checkAuthenticate(req, res, next) {
-  const token = req.query.token && req.query.token;
-  if (token == null) return res.status(403).sendFile(__dirname + '/public/forbiddenPage/index.html');
+  const token = req.cookies.token;
+  var user = token && getUserFromToken(token);
+  if(!user) return res.sendFile(__dirname + '/public/forbiddenPage/index.html');
+  req.user = user;
+  next();
+}
 
-  jwt.verify(token, token_secret, (err, user) => {
-    console.log(user)
-    if (err) return res.status(403).sendFile(__dirname + '/public/forbiddenPage/index.html');
-    req.user = user;
-    next();
+function getUserFromToken(token){
+  return jwt.verify(token, token_secret, (err, user) => {
+    if (err) return null;
+    return user;
   });
 }

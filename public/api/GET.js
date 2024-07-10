@@ -5,15 +5,6 @@ export async function getall(apiSettings) {
         headers: {
             "x-api-key": apiSettings.key
         }
-    }).then((response) => {
-        if (response.ok) {
-            return response.json();
-        }
-        else {
-            throw new Error('bilinmeyen bir hata oluştu');
-        }
-    }).catch((error) => {
-        console.error(error);
     });
 }
 
@@ -24,4 +15,4 @@ export async function get(apiSettings, username, password) {
             }
         }
     );
-}  
+}
