@@ -1,4 +1,4 @@
-import { response } from "express";
+
 
 export async function getall(apiSettings) {
     return await fetch(apiSettings.url + "/user", {
@@ -8,8 +8,8 @@ export async function getall(apiSettings) {
     });
 }
 
-export async function get(apiSettings, username, password) {
-    return await fetch(apiSettings.url + `user?username=${username}&password=${password}`, {
+export async function get(apiSettings, username) {
+    return await fetch(apiSettings.url + `/user/${username}`, {
         headers: {
             "x-api-key": apiSettings.key,
             }

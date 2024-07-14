@@ -6,8 +6,6 @@ import { checkAuthenticate } from "./jwt.js";
 import morgan from "morgan";
 import userAuth from './userAuth.js';
 import cookieParser from "cookie-parser";
-import { getAllTweets } from "./public/api/api.js";
-import { error } from "console";
 
 
 

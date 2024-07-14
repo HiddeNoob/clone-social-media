@@ -1,6 +1,7 @@
 import {generateAccessToken} from "./jwt.js";
 import {getUser} from "./public/api/api.js";
-import cookieParser from "cookie-parser";
+import bcrypt from 'bcrypt';
+
 
 
 export default async function userAuth(req, res,next){
@@ -9,28 +10,31 @@ export default async function userAuth(req, res,next){
     /*
     user info architecture:
     response: [
-        {
-            isOnline: false,
-            password: 'admin',
-            username: 'admin',
-            createTimestamp: 1720307103,
-            tweets: [Array]
+            {
+                password: 'admin',
+                username: 'admin',
+                createTime: 1720307103,
+                tweets_id: [Array]
             }
-            ]
+        ]
             
     */
    try{
-    const promise = await getUser(username, password);
-    const userInfo = await promise.json();
-    const httpStatus = promise.status;
-    if(promise.ok){
-        const token = generateAccessToken({username: username, password: password});
-        res.cookie('token', token, {httpOnly: true});
-        res.redirect('home');
-    }else{
-        sendError(res,httpStatus)
-    }
+        const promise = await getUser(username);
+        const userInfo = await promise.json();
+        if(promise.ok){
+            if(await comparePassword(password,userInfo.password)){
+                const token = generateAccessToken({username: username, password: password});
+                res.cookie('token', token, {httpOnly: true});
+                res.redirect('home');
+            }else{
+                sendError(res,404);
+            }
+        }else{
+            sendError(res,promise.status);
+        }
     }catch(e){
+        console.log(e);
         sendError(res,null);
     }
 
@@ -46,4 +50,13 @@ function sendError(response,statusCode){
     else {
         response.redirect('login?error=2');
     }
+}
+
+async function hashPassword(password){
+    const hashedPassword = await bcrypt.hash(password, 10);
+    return hashedPassword;
+}
+
+async function comparePassword(password,hashedPassword){
+    return await bcrypt.compare(password,hashedPassword);
 }

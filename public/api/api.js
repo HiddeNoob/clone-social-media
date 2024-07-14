@@ -1,28 +1,32 @@
-import {getall,get} from './GET.js';
+import {get,getall} from './user/GET.js';
+import {delete_user} from './user/DELETE.js';
+import {create} from './user/POST.js';
+import {update} from './user/PATCH.js';
 import apiSettings from './apiSettings.json' with {type: "json"};
+import e from 'express';
 
 export async function getAllUsers() {
    return await getall(apiSettings);
 };
 
-export async function getUser(username, password) {
-    return await get(apiSettings, username, password);
+export async function getUser(username) {
+    return await get(apiSettings, username);
 }
 
-export async function getAllTweets() {
+export async function updateUser(user_name, update_key, update_value) {
+    return await update(apiSettings, user_name, update_key, update_value);
+}
 
-    const promise = await getAllUsers();
-    const users = await promise.json();
-    let tweets = [];
-    if(promise.ok){
-        (users.response).forEach((user) => {
-            user.tweets.forEach((tweet) => {
-                tweets.push(tweet);
-            });
-        });
-    }else if(promise.status == 429){
-        throw new Error('Too many requests');
+export async function deleteUser(username) {
+    return await delete_user(apiSettings, username);
+}
+
+
+/** 
+    user = {
+        user_name: string, password: string, createTime: number, tweets_id: list,
     }
-    return tweets;
-    
+**/
+export async function createUser(user) {
+    return await create(apiSettings, user);
 }
