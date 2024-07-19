@@ -3,31 +3,31 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
+    <title>home</title>
     <link rel="stylesheet" href="./homePage/style.css">
+
+
 </head>
     <body>
 
+        <nav>
+            <ul class="nav-items">
+                <li><a href="/home"><img src="./resources/svg/home.svg" alt="home"></a></li>
+                <li><a href="/person/your_name"><img src="./resources/svg/person.svg" alt="person"></a></li>
+                <li><a href="/settings"><img src="./resources/svg/gear.svg" alt="settings"></a></li>
+            </ul>
+        </nav>
+
         <div class="container">
-            <header>
-                <h1>Welcome to Fake Twitter</h1>
-                <h2 id="welcome"></h2>
-            </header>
-            <nav>
-                <ul>
-                    <li><a href="#">Home</a></li>
-                    <li><a href="#">Settings</a></li>
-                </ul>
-            </nav>
             <main>
                 <section>
-                    <h2>Latest Tweets</h2>
-                    <div id="tweets"></div>
+                    <h2 class="white1">Latest Tweets</h2>
+                    <div id="tweets" class="tweets">
+
+                    </div>
                 </section>
             </main>
-            <footer>
-                <p>hiddenoob</p>
-            </footer>
+            
         </div>
     </body>
     <script src="./homePage/script.js"></script>

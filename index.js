@@ -6,6 +6,7 @@ import { checkAuthenticate } from "./jwt.js";
 import morgan from "morgan";
 import userAuth from './userAuth.js';
 import cookieParser from "cookie-parser";
+import { getAllTweets} from "./public/api/api.js";
 
 
 
@@ -35,14 +36,11 @@ app.get('/home', checkAuthenticate, (req, res) => {
 
 
 
-app.get('/tweets',checkAuthenticate ,async (req, res) => {
+app.get('/api/v1/tweet',checkAuthenticate,async (req, res) => {
     try{
         const tweets = await getAllTweets()
-        const message = {
-            status: 200,
-            message: 'Tweets are fetched successfully',
-            data: tweets
-        }
+
+        const message = await tweets.json()
         res.send(message);
     }
     catch(err){
@@ -55,6 +53,11 @@ app.get('/tweets',checkAuthenticate ,async (req, res) => {
         res.send(error);
     }
 
+});
+
+app.get("/api/v1/tweet/like", checkAuthenticate, (req, res) => {
+    let user = req.user;
+    api
 });
 
 app.use((req, res) => {

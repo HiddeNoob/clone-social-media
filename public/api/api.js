@@ -2,8 +2,8 @@ import {get,getall} from './user/GET.js';
 import {delete_user} from './user/DELETE.js';
 import {create} from './user/POST.js';
 import {update} from './user/PATCH.js';
+import {getalltweets} from './tweet/GET.js';
 import apiSettings from './apiSettings.json' with {type: "json"};
-import e from 'express';
 
 export async function getAllUsers() {
    return await getall(apiSettings);
@@ -29,4 +29,8 @@ export async function deleteUser(username) {
 **/
 export async function createUser(user) {
     return await create(apiSettings, user);
+}
+
+export async function getAllTweets(){
+    return await getalltweets(apiSettings);
 }
