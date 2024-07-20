@@ -6,12 +6,12 @@ import { checkAuthenticate } from "./jwt.js";
 import morgan from "morgan";
 import userAuth from './userAuth.js';
 import cookieParser from "cookie-parser";
-import { getAllTweets} from "./public/api/api.js";
+import { getAllTweets,getUserTweet, getUserTweets} from "./public/api/api.js";
 
 
 
 const app = express();
-const PORT = 3000;
+const PORT = 80;
 const __dirname = dirname(fileURLToPath(import.meta.url));
 
 app.use(morgan('dev'));
@@ -29,9 +29,17 @@ app.get('/login', (req, res) => {
     res.sendFile(__dirname + '/public/loginPage/index.html');
 });
 
+app.get('/register', (req, res) => {
+    res.sendFile(__dirname + '/public/registerPage/index.html');
+});
+
 app.get('/home', checkAuthenticate, (req, res) => {
     
     res.sendFile(__dirname + '/public/homePage/index.html');
+});
+
+app.get('/settings', checkAuthenticate, (req, res) => {
+    res.sendFile(__dirname + '/public/settingsPage/index.html');
 });
 
 
@@ -39,6 +47,44 @@ app.get('/home', checkAuthenticate, (req, res) => {
 app.get('/api/v1/tweet',checkAuthenticate,async (req, res) => {
     try{
         const tweets = await getAllTweets()
+
+        const message = await tweets.json()
+        res.send(message);
+    }
+    catch(err){
+        console.log(err);
+        let error = {
+            status: 500,
+            message: err.message,
+            data : null
+        }
+        res.send(error);
+    }
+
+});
+
+app.get('/api/v1/tweet/:user_name/:creation_time',checkAuthenticate,async (req, res) => {
+    try{
+        const tweets = await getUserTweet(req.params.user_name,req.params.creation_time)
+
+        const message = await tweets.json()
+        res.send(message);
+    }
+    catch(err){
+        console.log(err);
+        let error = {
+            status: 500,
+            message: err.message,
+            data : null
+        }
+        res.send(error);
+    }
+
+});
+
+app.get('/api/v1/tweet/:user_name',checkAuthenticate,async (req, res) => {
+    try{
+        const tweets = await getUserTweets(req.params.user_name)
 
         const message = await tweets.json()
         res.send(message);

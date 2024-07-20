@@ -16,8 +16,11 @@ fetch('/api/v1/tweet').then((response) => {
     const tweets = response.Items;
     tweets.forEach((tweet) => {
         const tweetElement = createTweetElement(tweet);
-        tweetElements.appendChild(tweetElement);
+        tweetElement.querySelector('.heart-button').addEventListener('click', likeTweet(tweet));
+        tweetElement.querySelector('.comment-button').addEventListener('click', showComments(tweet));
+        tweetElements.append(tweetElement);
     });
+
 }).catch((error) => {
     const errorElement = document.createElement('div');
     errorElement.className = 'error';
@@ -28,8 +31,43 @@ fetch('/api/v1/tweet').then((response) => {
 });
 
 
-function openComments(){
+function showComments(tweet){
+    console.log("showing comments");
+    const comments = tweet.comments;
+    const body = document.getElementById('popup-body');
+    comments.forEach((comment) => {
+        console.log(comment);
+        body.appendChild(createCommentElement(comment));     
+    });
+}
 
+function createCommentElement(comment){
+    const commentElement = document.createElement('div');
+    commentElement.className = 'comment';
+    const tweetDate = new Date(comment.createTime * 1000);
+    commentElement.innerHTML = `
+
+                                <div class="comment-header bold white1">
+                                    <h6>${comment.user_name}</h2>
+                                </div>
+                                <div class="comment-body">
+                                    <p>${comment.comment}</p>
+                                </div>
+                                <div class="comment-footer">
+                                    
+                                    <div class="flex gap-5px margin-right-5px">
+                                        <img src="./resources/svg/heart.svg" alt="heart" class="heart-button clickable">
+                                        ${comment.like}
+                                    </div>
+                                
+                                    <div class="date white">
+                                        ${tweetDate.getHours()}:${tweetDate.getMinutes()} ${tweetDate.toLocaleDateString()} 
+                                    </div>
+
+                                </div>
+
+                                `
+    return commentElement;
 }
 
 function createTweetElement(tweet){
@@ -42,11 +80,11 @@ function createTweetElement(tweet){
 
     <div class="horizontal flex gap-5px ">
         <div class="flex gap-5px margin-right-5px">
-            <img src="./resources/svg/heart.svg" alt="heart" class="heart clickable">
+            <img src="./resources/svg/heart.svg" alt="heart" class="heart-button clickable">
             ${tweet.liked_users.length}
-    </div>
-        <div class="comment flex gap-5px">
-            <img src="./resources/svg/comment.svg" alt="comment" class="comment clickable" data-mdb-ripple-init data-mdb-modal-init data-mdb-target="#exampleModal">
+        </div>
+        <div class="flex gap-5px">
+            <img src="./resources/svg/comment.svg" alt="comment" class="comment-button clickable" data-bs-toggle="modal" data-bs-target="#commentPopUp">
             ${tweet.comments.length}
         </div>
 
@@ -58,7 +96,8 @@ function createTweetElement(tweet){
 }
 
 function likeTweet(tweet){
-    fetch("/api/v1/tweet/like")
+    console.log("liking tweet");
+
 }
 
 
