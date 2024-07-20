@@ -16,9 +16,9 @@ fetch('/api/v1/tweet').then((response) => {
     const tweets = response.Items;
     tweets.forEach((tweet) => {
         const tweetElement = createTweetElement(tweet);
-        tweetElement.querySelector('.heart-button').addEventListener('click', likeTweet(tweet));
-        tweetElement.querySelector('.comment-button').addEventListener('click', showComments(tweet));
         tweetElements.append(tweetElement);
+        tweetElement.querySelector('.heart-button').addEventListener('click', () => likeTweet(tweet));
+        tweetElement.querySelector('.comment-button').addEventListener('click', () => showComments(tweet));
     });
 
 }).catch((error) => {
@@ -35,8 +35,8 @@ function showComments(tweet){
     console.log("showing comments");
     const comments = tweet.comments;
     const body = document.getElementById('popup-body');
+    body.innerHTML = '';
     comments.forEach((comment) => {
-        console.log(comment);
         body.appendChild(createCommentElement(comment));     
     });
 }
