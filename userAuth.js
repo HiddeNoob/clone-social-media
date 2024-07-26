@@ -24,7 +24,7 @@ export default async function userAuth(req, res,next){
         const userInfo = await promise.json();
         if(promise.ok){
             if(await comparePassword(password,userInfo.password)){
-                const token = generateAccessToken({username: username, password: password});
+                const token = generateAccessToken({username: userInfo.user_name, password: userInfo.password});
                 res.cookie('token', token, {httpOnly: true});
                 res.redirect('home');
             }else{
