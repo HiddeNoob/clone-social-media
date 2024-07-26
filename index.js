@@ -6,7 +6,8 @@ import { checkAuthenticate } from "./jwt.js";
 import morgan from "morgan";
 import userAuth from './userAuth.js';
 import cookieParser from "cookie-parser";
-import { getAllTweets,getUserTweet, getUserTweets, updateTweet, updateUser} from "./public/api/api.js";
+import { getAllTweets,getUserTweet, getUserTweets, updateTweet, updateUser,createUser, getUser} from "./public/api/api.js";
+import { hashPassword } from "./userAuth.js";
 
 
 
@@ -49,16 +50,15 @@ app.get('/api/v1/tweet',checkAuthenticate,async (req, res) => {
         const tweets = await getAllTweets()
 
         const message = await tweets.json()
-        res.send(message);
+        res.status(200).send(message);
     }
     catch(err){
         console.log(err);
         let error = {
-            status: 500,
             message: err.message,
             data : null
         }
-        res.send(error);
+        res.status(500).send(error);
     }
 
 });
@@ -68,16 +68,15 @@ app.get('/api/v1/tweet/:user_name/:creation_time',checkAuthenticate,async (req, 
         const tweets = await getUserTweet(req.params.user_name,req.params.creation_time)
 
         const message = await tweets.json()
-        res.send(message);
+        res.status(200).send(message);
     }
     catch(err){
         console.log(err);
         let error = {
-            status: 500,
             message: err.message,
             data : null
         }
-        res.send(error);
+        res.status(500).send(error);
     }
 
 });
@@ -98,7 +97,7 @@ app.post('/api/v1/tweet/:user_name/:creation_time/comment',checkAuthenticate,asy
         const message = await updateTweet(selectedTweet.user_name,selectedTweet.createTime,"comments",comments)
         const updateResponse = await message.json()
 
-        res.send({
+        res.status(200).send({
             status: message.status,
             message: message.statusText,
             data : {
@@ -113,7 +112,7 @@ app.post('/api/v1/tweet/:user_name/:creation_time/comment',checkAuthenticate,asy
             message: err.message,
             data : null
         }
-        res.send(error);
+        res.status(500).send(error);
     }
 })
 
@@ -144,8 +143,7 @@ app.post('/api/v1/tweet/:user_name/:creation_time/like',checkAuthenticate,async 
         const updateResponse = await message.json()
 
 
-        res.send({
-            status: 200,
+        res.status(200).send({
             message: "Success",
             data : {
                 "likeState": likeState ? "liked" : "unliked",
@@ -155,16 +153,47 @@ app.post('/api/v1/tweet/:user_name/:creation_time/like',checkAuthenticate,async 
     }
     catch(err){
         console.log(err);
-        let error = {
-            status: 500,
+
+        res.status(500).send({
             message: err.message,
             data : null
-        }
-        res.send(error);
+        });
     }
 });
 
+app.post('/register', bodyParser.json(),async (req, res) => {
+    try{
+        const username = req.body.username
+        const password = req.body.password
+        let isUserAlreadyExist = (await getUser(username)).ok
+        if(isUserAlreadyExist){
+            res.status(409).send({
+                message: "User already exist",
+            }); // user already exist
+        }else{
+            const hashedPassword = await hashPassword(password)
+            const user = {
+                user_name: username,
+                password: hashedPassword,
+                createTime: Math.floor(Date.now()/1000),
+                tweets_id: []
+            }
+            await createUser(user)
+            res.status(200).send({
+                message: "Success",
+                data : user
+            })
+        }
+        
 
+    }
+    catch(err){
+        console.log(err);
+        res.status(500).send({
+            "error" : err.message
+        })
+    }
+});
 
 app.get('/api/v1/tweet/:user_name',checkAuthenticate,async (req, res) => {
 
@@ -177,11 +206,10 @@ app.get('/api/v1/tweet/:user_name',checkAuthenticate,async (req, res) => {
     catch(err){
         console.log(err);
         let error = {
-            status: 500,
             message: err.message,
             data : null
         }
-        res.send(error);
+        res.status(500).send(error);
     }
 
 });

@@ -1,43 +1,85 @@
-let tweetElements = document.getElementById('tweets')
-const loadingGif = document.createElement('img');
-loadingGif.src = '/resources/gif/loadingGif.gif';
-loadingGif.classList.add('loading');
-tweetElements.appendChild(loadingGif)
 
-fetch('/api/v1/tweet').then((response) => {
-    if (response.ok) 
-        return response.json();
-
-    else
-        throw Error(response.status + ": " + response.message);
-}).then(async (response) => {
-    const username = await fetch('/api/v1/me').then((response) => response.json()).then((data) => data.username);
-    const tweets = response.Items;
-    tweets.forEach((tweet) => {
-        const tweetElement = createTweetElement(tweet,username);
-        tweetElements.append(tweetElement);
-        tweetElement.querySelector('.heart-button').addEventListener('click', () => {
-            likeTweet(tweet).then((comingData) => {
-                console.log(comingData);
-                tweetElement.querySelector('.heart-button').src = comingData.likeState == "liked" ? './resources/svg/heart-filled.svg' : './resources/svg/heart-empty.svg' ;
-                tweetElement.querySelector('.heart-button').nextSibling.textContent = comingData.UpdatedAttributes.liked_users.length;
-                console.log(comingData);
-            }).catch((error) => {
-                console.error(error);
-            });
-        });
-        tweetElement.querySelector('.comment-button').addEventListener('click', () => showComments(tweet));
-    });
-
-}).catch((error) => {
-    const errorElement = document.createElement('div');
-    errorElement.className = 'error';
-    errorElement.innerHTML = 'Bir hata oluştu: ' + error.message;
-    tweetElements.append(errorElement);
-    console.error(error);
-}).finally(() => {
-    loadingGif.remove();
+document.addEventListener('DOMContentLoaded', async () => {
+    await setUserToLocalStorage();
+    setPersonHref();
+    loadTweets();
 });
+
+async function setUserToLocalStorage(){
+    await fetch('/api/v1/me').then((response) => {
+        if (response.ok)
+            return response.json();
+        else
+            throw Error(response.status + ": " + response.message);
+    }).then((data) => {
+        localStorage.setItem('username', data.username);
+    }).catch((error) => {
+        console.error(error);
+    });
+}
+
+
+function setPersonHref(){
+    document.getElementById('my-profile').href = '/profile/' + localStorage.getItem('username');
+}
+
+
+function showLoadingGif(){
+    const loadingGif = document.createElement('img');
+    loadingGif.src = '/resources/gif/loadingGif.gif';
+    loadingGif.classList.add('loading');
+    findTweetElements().appendChild(loadingGif)
+}
+
+function findTweetElements(){
+    return document.getElementById('tweets')
+}
+
+function hideLoadingGif(){
+    const loadingGif = document.querySelector('.loading');
+    loadingGif.remove();
+}
+
+
+
+async function loadTweets(){
+    const tweetElements = findTweetElements();
+    showLoadingGif();
+    fetch('/api/v1/tweet').then((response) => { // get tweets from local api
+        if (response.ok) 
+            return response.json();
+        else
+            throw Error(response.status + ": " + response.message);
+    }).then(async (response) => {
+        console.log(response)
+        const username = await localStorage.getItem('username');
+        const tweets = response.Items;
+        tweets.forEach((tweet) => {
+            const tweetElement = createTweetElement(tweet,username);
+            tweetElements.append(tweetElement);
+            tweetElement.querySelector('.heart-button').addEventListener('click', () => {
+                likeTweet(tweet).then((comingData) => {
+                    console.log(comingData);
+                    tweetElement.querySelector('.heart-button').src = comingData.likeState == "liked" ? './resources/svg/heart-filled.svg' : './resources/svg/heart-empty.svg' ;
+                    tweetElement.querySelector('.heart-button').nextSibling.textContent = comingData.UpdatedAttributes.liked_users.length;
+                    console.log(comingData);
+                }).catch((error) => {
+                    console.error(error);
+                });
+            });
+            tweetElement.querySelector('.comment-button').addEventListener('click', () => showComments(tweet));
+        });
+    
+    }).catch((error) => {
+        const errorElement = document.createElement('div');
+        errorElement.className = 'error';
+        errorElement.innerHTML = 'Bir hata oluştu: ' + error.message;
+        tweetElements.append(errorElement);
+        console.error(error);
+    }).finally(() => {
+        hideLoadingGif();
+    });
+}
 
 
 function showComments(tweet){

@@ -52,7 +52,7 @@ function sendError(response,statusCode){
     }
 }
 
-async function hashPassword(password){
+export async function hashPassword(password){
     const hashedPassword = await bcrypt.hash(password, 10);
     return hashedPassword;
 }
