@@ -7,7 +7,7 @@
 ***/
 export async function create(apiSettings,user){
     return await fetch(apiSettings.url + "/user", {
-        method: "POST",
+        method: 'POST',
         headers: {
             "x-api-key": apiSettings.key,
             "Content-Type": "application/json"

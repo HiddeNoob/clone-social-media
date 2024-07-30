@@ -1,4 +1,4 @@
-import express from "express";
+import express, { response } from "express";
 import bodyParser from "body-parser";
 import { dirname } from "path";
 import { fileURLToPath } from "url";
@@ -6,8 +6,9 @@ import { checkAuthenticate } from "./jwt.js";
 import morgan from "morgan";
 import userAuth from './userAuth.js';
 import cookieParser from "cookie-parser";
-import { getAllTweets,getUserTweet, getUserTweets, updateTweet, updateUser,createUser, getUser} from "./public/api/api.js";
+import { getAllTweets,getUserTweet, getUserTweets, updateTweet, updateUser,createUser, getUser, createTweet} from "./api/api.js";
 import { hashPassword } from "./userAuth.js";
+import e from "express";
 
 
 
@@ -37,6 +38,17 @@ app.get('/register', (req, res) => {
 app.get('/home', checkAuthenticate, (req, res) => {
     
     res.sendFile(__dirname + '/public/homePage/index.html');
+});
+
+app.get('/profile/:username', checkAuthenticate, (req, res) => {
+    getUser(req.params.username).then((data) => {
+        if(data.ok){
+            res.sendFile(__dirname + '/public/profilePage/');
+        }
+        else{
+            res.status(404).sendFile(__dirname + '/public/notFoundPage/index.html');
+        }
+    })
 });
 
 app.get('/settings', checkAuthenticate, (req, res) => {
@@ -115,6 +127,30 @@ app.post('/api/v1/tweet/:user_name/:creation_time/comment',checkAuthenticate,asy
         res.status(500).send(error);
     }
 })
+
+app.get('/api/v1/user/:user_name',checkAuthenticate,async (req, res) => {
+    try{
+        const user = await getUser(req.params.user_name).then((data) => {
+            if(data.ok){
+                return data.json()
+            }else{
+                throw new Error(data.statusText)
+            }
+        })
+        res.status(200).send({
+            "message": "Success",
+            "data" : user
+        });
+    }
+    catch(err){
+        console.log(err);
+        let error = {
+            message: err.message,
+            data : null
+        }
+        res.status(500).send(error);
+    }
+});
 
 app.get('/api/v1/me',checkAuthenticate,async (req, res) => {
     
@@ -200,7 +236,11 @@ app.get('/api/v1/tweet/:user_name',checkAuthenticate,async (req, res) => {
     try{
         const tweets = await getUserTweets(req.params.user_name)
         const message = await tweets.json()
-        res.send(message);
+        res.status(200).send({
+            "Operation": "GET",
+            "Message": "SUCCESS",
+            "Items": message
+        })
 
     }
     catch(err){
@@ -214,6 +254,48 @@ app.get('/api/v1/tweet/:user_name',checkAuthenticate,async (req, res) => {
 
 });
 
+app.post('/api/v1/tweet',checkAuthenticate,bodyParser.json(),async (req, res) => {
+    try{
+        const tweet = req.body.tweet
+        const createdTime = Math.floor(Date.now()/1000)
+        const newTweet = {
+            "tweet": tweet,
+            "liked_users": [],
+            "comments": []
+        }
+        let currentUserInfo = await getUser(req.user.username).then((response) => response.json())
+        currentUserInfo.tweets_id.push(createdTime) 
+        if(updateUser(req.user.username,"tweets_id",currentUserInfo.tweets_id).then((response) => response.status == 200)){
+            console.log("user update success")
+            if(createTweet(req.user.username,createdTime,newTweet).then((response) => response.status == 200))
+                console.log("tweet create success")
+            else
+                throw new Error("tweet create failed")
+        }
+        else{
+            throw new Error("user update failed")
+        }
+        res.status(200).send({
+            message: "Success",
+            data : {
+                "user_name": req.user.username,
+                "createTime": createdTime,
+                "tweet": newTweet.tweet,
+                "liked_users": newTweet.liked_users,
+                "comments": newTweet.comments
+            }
+        });
+    }
+    catch(err){
+        console.log(err);
+        let error = {
+            message: err.message,
+            data : null
+        }
+        res.status(500).send(error);
+    }
+})
+
 
 
 app.use((req, res) => {
@@ -224,4 +306,7 @@ app.listen(PORT, () => {
     console.log(`Server is running on port ${PORT}`);
 });
 
+/* 
+
+*/
 

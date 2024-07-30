@@ -1,5 +1,5 @@
 import {generateAccessToken} from "./jwt.js";
-import {getUser} from "./public/api/api.js";
+import {getUser} from "./api/api.js";
 import bcrypt from 'bcrypt';
 
 

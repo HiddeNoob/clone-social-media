@@ -1,53 +1,20 @@
-/* Add your CSS styles here */
-body {
-    font-family: Arial, sans-serif;
-    background-color: #2f2f2f;
-    color: rgb(166, 166, 166);
-    margin: 0;
-    padding: 0;
-}
 
-.container {
-    max-width: 1000px;
-    padding: 20px;
-}
-
-header {
-    text-align: center;
-    margin-bottom: 20px;
-}
-
-
-nav ul {
-    height: 100%;
-    
-    justify-content: space-around;
-    border-radius: 0px 20px 20px 0px;
-    background-color: rgb(82, 82, 82);
-    
-    position: fixed;
-    list-style-type: none;
-    padding: 0;
-    margin: 0;
-    display: flex;
-    flex-direction: column;
-    
-}
-
-.comment{
-    display: flex;
-    flex-direction: column;
-}
 
 @media (max-width: 600px) {
-    nav ul {
-        bottom: 0;
-        height: fit-content;
-        padding: 10px;
-        flex-direction: row;
-        border-radius: 20px 20px 0px 0px;
-        position: fixed;
-        width: 100%;
+    @media (max-width: 700px) {
+        .for-phone {
+            margin-bottom: 0;
+            bottom: 0;
+            height: fit-content;
+            padding: 10px;
+            flex-direction: row !important;
+            border-radius: 1rem 1rem 0px 0px !important;
+            width: 100% !important;
+            height: fit-content !important;
+        }
+        .m-4{
+            margin-bottom: 70px !important;
+        }
     }
 
 
@@ -60,154 +27,15 @@ nav ul {
     }
 }
 
-
-
-nav ul li a {
-    text-decoration: none;
-    color: #333;
-    padding: 5px;
-}
-
-main {
-    display: flex;
-    justify-content: space-between;
-    margin-top: 20px;
-}
-
-section {
-    flex: 2;
-    margin-right: 20px;
-}
-
-.tweet {
-    border-radius: 30px;
-    margin-bottom: 30px;
-    border: 1.7px solid #ccc;
-
-
-    padding: 10px;
-}
-
-.tweets{
-    padding: 20px;
-    margin: 0px;
-    border-radius: 50px;
-
-}
-
-.comment-button{
-    flex-direction: row;
-}
-
-.username{
-    color: white;
-}
-
-
-aside {
-    flex: 1;
-}
-
-footer {
-    text-align: center;
-    margin-top: 20px;
-}
-
-.loading {
-    margin-top: 20px;
-    height: 30px;
-}
-
-.error{
-    width: fit-content;
-    color: red;
-    border: 2px solid red;
-}
-
-.horizontal {
-    display: flex;
-}
-
-.flex {
-    display: flex;
-    align-items: center;
-}
-
-.fit-content {
-    width: fit-content;
-}
-
-.gap-5px{
-    gap: 5px;
-}
-
-.margin-right-5px {
-    margin-right: 5px;
-}
-
-.show-border {
-    border: 1px solid #ccc;
-}
-
-.float-right {
-    float: right;
-}
-
-.float-left {
-    float: left;
-}
-
-.date {
-    font-size: 12px;
-    color: #777;
-    margin-left: auto;
-}
-
-.bold {
-    font-weight: bold;
-}
-
-.profile-link {
-    color: #333;
-    text-decoration: none;
-}
-
-.heart{
-    
-}
-
-.comment{
-    border: 2px solid rgb(132, 132, 132);
-    border-radius: 10px;
-    padding: 10px;
-    margin-bottom: 10px;
-}
-
-.comment-body{
-    margin-left: 20px;
-}
-
-.comment-footer{
-    display: flex;
-    flex-direction: row;
-}
-
-.clickable {
+.clickable{
     cursor: pointer;
 }
 
-.white1{
-    color: white;
+.text-area{
+    resize: none;
 }
 
-.white2{
-    color: rgb(224, 224, 224);
+.text-area:focus{
+    outline: none;
 }
 
-.white3{
-    color: rgb(199, 195, 195);
-}
-
-.white4{
-    color: rgb(169, 169, 169);
-}

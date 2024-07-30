@@ -1,0 +1,24 @@
+p{
+    margin: 0;
+    padding: 0;
+}
+
+.clickable{
+    cursor: pointer;
+}
+
+@media (max-width: 840px) {
+    .for-phone-nav {
+        bottom: 0;
+        height: fit-content;
+        padding: 10px;
+        flex-direction: row !important;
+        border-radius: 1rem 1rem 0px 0px !important;
+        width: 100% !important;
+        height: fit-content !important;
+    }
+
+
+
+}
+
