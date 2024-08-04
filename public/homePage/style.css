@@ -1,31 +1,8 @@
-
-
-@media (max-width: 600px) {
-    @media (max-width: 700px) {
-        .for-phone {
-            margin-bottom: 0;
-            bottom: 0;
-            height: fit-content;
-            padding: 10px;
-            flex-direction: row !important;
-            border-radius: 1rem 1rem 0px 0px !important;
-            width: 100% !important;
-            height: fit-content !important;
-        }
-        .m-4{
-            margin-bottom: 70px !important;
-        }
-    }
-
-
-
+body{
+    width: 100vw;
 }
 
-@media (min-width: 600px) {
-    .container{
-        padding-left: 100px;
-    }
-}
+
 
 .clickable{
     cursor: pointer;

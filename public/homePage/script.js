@@ -1,14 +1,42 @@
 
 
-document.addEventListener('DOMContentLoaded', async () => {
-    await setUserToLocalStorage();
-    setPersonHref();
+setUserToLocalStorage();
+setPersonHref();
+reloadTweets()
 
-    document.getElementById('tweet-button').addEventListener('click', postTweet);
 
-    loadAllTweets("tweets",{sortBy: 'createTime', sortType: 'descent'});
-    
+
+document.getElementById('tweet-button').addEventListener('click',async () => {
+    if(document.getElementById('tweet-text').value.length == 0){
+        document.getElementById("share-error").innerText = "you can't share an empty tweet";
+        return;
+    }else if(document.getElementById('tweet-text').value.length > 140){
+        document.getElementById("share-error").innerText = "tweet can't be longer than 140 characters";
+        return;
+    }
+    else{
+        showLoadingGif("tweets");
+        await postTweet(document.getElementById('tweet-text').value).then((response) => {
+            if (!response.ok)
+                throw Error(response.status + ": " + response.message);
+            else{
+                return response.json();
+            }
+        }).then((response) => {
+            document.getElementById("tweets").prepend(createFunctionalTweetElement(response.data));
+        }).catch((error) => {
+            console.error(error);
+            document.getElementById("share-error").innerText = "could't share the tweet"
+        }).finally(() => {
+            hideLoadingGif();
+            document.getElementById('tweet-text').value = '';
+        });
+    }
 });
+
+
+
+
 
 async function setUserToLocalStorage(){
     await fetch('/api/v1/me').then((response) => {
@@ -24,30 +52,25 @@ async function setUserToLocalStorage(){
 }
 
 
-function setPersonHref(){
-    document.getElementById('my-profile').href = '/profile/' + localStorage.getItem('username');
+
+
+async function postTweet(tweetText){
+    return fetch('/api/v1/tweet', {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({tweet: tweetText})
+    })
 }
 
-function postTweet(){
-    const tweetText = document.getElementById('tweet-text').value;
-    if(tweetText.length > 0){
-        fetch('/api/v1/tweet', {
-            method: 'POST',
-            headers: {
-                'Content-Type': 'application/json'
-            },
-            body: JSON.stringify({tweet: tweetText})
-        }).then((response) => {
-            if (response.ok){
-                document.getElementById('tweet-text').value = '';
-                loadAllTweets("tweets",{sortBy: 'createTime', sortType: 'descent'});
-            }
-            else
-                throw Error(response.status + ": " + response.message);
-        }).catch((error) => {
-            console.error(error);
-        });
-    }else{
-        document.getElementById('share-error').innerHTML = 'please fill the field';
-    }
-}   
+async function reloadTweets(){
+    const tweetContainer = document.getElementById('tweets');
+    tweetContainer.innerHTML = '';
+    showLoadingGif("tweets");
+    const tweetElements = await loadAllTweets({sortBy: 'createTime', sortType: 'descendant'},localStorage.getItem('username'));
+    hideLoadingGif();
+    tweetElements.forEach((element) => {
+        tweetContainer.appendChild(element);
+    });
+}

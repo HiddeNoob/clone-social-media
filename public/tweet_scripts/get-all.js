@@ -1,30 +1,27 @@
-async function loadAllTweets(object_id,sortType){
-    const tweetElements = findTweetElements(object_id);
-    showLoadingGif(object_id);
-    fetch(`/api/v1/tweet`).then((response) => { // get users tweets from local api
+async function loadAllTweets(sortType,loggedUser){
+    return fetch(`/api/v1/tweet`).then((response) => { // get users tweets from local api
         if (response.ok) 
             return response.json();
         else
             throw Error(response.status + ": " + response.message);
     }).then((response) => {
-        return sortTweets(response.Items, sortType.sortBy,sortType.sortType);
+        if(response.Items.length == 0){
+            throw Error("Couldn't find any tweet");
+        }else{
+            return sortItem(response.Items, sortType.sortBy,sortType.sortType);
+        }
     }).then(async (tweets) => {
-        
-        createFunctionalTweetElements(tweets).then((elements) => {
-            tweetElements.innerHTML
-            elements.forEach((element) => {
-                tweetElements.append(element);
-            });
+        let tweetElements = [];
+        tweets.forEach((tweet) => {
+            tweetElements.push(createFunctionalTweetElement(tweet,loggedUser))
         });
-    
+        return tweetElements
     }).catch((error) => {
-        const errorElement = document.createElement('div');
-        errorElement.className = 'error';
-        errorElement.innerHTML = 'Bir hata oluştu: ' + error.message;
-        tweetElements.append(errorElement);
         console.error(error);
-    }).finally(() => {
-        hideLoadingGif();
+        const noTweetElement = document.createElement('div');
+        noTweetElement.className = 'text-center fst-italic p-4 text-secondary';
+        noTweetElement.innerHTML = error.message;
+        return [noTweetElement];
     });
 }
 

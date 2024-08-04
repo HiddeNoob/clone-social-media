@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Login</title>
+    <title>Register</title>
     <link rel="stylesheet" href="./registerPage/style.css">
 
     <link
@@ -23,7 +23,7 @@
       <form class="card text-white">
 
         <div data-mdb-input-init class="form-outline mb-4" >
-          <input type="text" id="username" class="form-control" required name="username"/>
+          <input type="text" id="username" class="form-control" pattern="\w{3,16}" required name="username"/>
           <label class="form-label" for="username">Username</label>
         </div>
       

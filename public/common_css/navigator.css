@@ -1,0 +1,38 @@
+body{
+    margin: 0;
+    overflow-y: scroll;
+    overflow-x: hidden;
+    padding: 0;
+}
+
+@media (max-width: 600px) {
+    .for-phone {
+        width: 90vw !important;
+        margin-bottom: 0;
+        bottom: 0;
+        height: fit-content;
+        padding: 10px;
+        flex-direction: row !important;
+        border-radius: 1rem 1rem 0px 0px !important;
+        width: 100% !important;
+        height: fit-content !important;
+    }
+    .for-phone-margin{
+        margin-bottom: 70px !important;
+    }
+    .main{
+        margin-bottom: 80px;
+    }
+}
+
+
+
+@media (min-width: 600px) {
+    .main{
+        
+        margin-left: 0px;
+        margin-right: 0px;
+        padding-right: 12px;
+        padding-left: 70px;
+    }
+}

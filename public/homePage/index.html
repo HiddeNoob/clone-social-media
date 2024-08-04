@@ -11,9 +11,11 @@
       integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH"
       crossorigin="anonymous"
     />
+    <link rel="stylesheet" href="/common_css/navigator.css">
     <link rel="stylesheet" href="/homePage/style.css" />
   </head>
   <body >
+    
     <nav>
       <ul
         class="position-fixed bg-body-secondary rounded-end-4 p-2 d-flex flex-column justify-content-around h-100 list-unstyled for-phone"
@@ -37,20 +39,19 @@
     
 
 
-    <div class="container">
-          <h1 class="p-4 text-white">Latest Tweets</h2>
-            <div class="border border-secondary rounded p-2 m-4 fs-6 ">
-              <h5>Share Tweet</h5>
-              <textarea name="text" id="tweet-text" class="is-invalid border p-3 rounded border-0 bg-body-tertiary text-area w-100" required ></textarea>
-              <p class="invalid-feedback" id="share-error"></p>
-              <button class="btn btn-primary mt-2 bg-body-secondary border-secondary" id="tweet-button" >Share</button>
-            </div>
-          <div id="tweets" class="m-4 fs-6">
-            
-          </div>
-    </div>
+    <div class="mx-5 py-4 g-5 main">
+      <h1 class="mb-4 text-white">Latest Tweets</h2>
+        <div class="border border-secondary rounded p-2 mb-4 fs-6 ">
+          <h5>Share Tweet</h5>
+          <textarea name="text" id="tweet-text" class="is-invalid border p-3 rounded border-0 bg-body-tertiary text-area w-100" required ></textarea>
+          <p class="invalid-feedback" id="share-error"></p>
+          <button class="btn btn-primary mt-2 bg-body-secondary border-secondary" id="tweet-button" >Share</button>
+        </div>
+      <div id="tweets" class="for-phone-margin fs-6">
+        
+      </div>
+    </div>  
 
-    <!-- Modal -->
     <div
       data-bs-theme="dark"
       class="modal fade"
@@ -70,8 +71,11 @@
               aria-label="Close"
             ></button>
           </div>
-          <div class="modal-body" id="popup-body"></div>
-          <div class="modal-footer"></div>
+          <div class="modal-body" id="popup-body" >
+
+
+
+          </div>
         </div>
       </div>
     </div>
@@ -83,177 +87,7 @@
   ></script>
   <script src="./tweet_scripts/tweet_functions.js"></script>
   <script src="./tweet_scripts/get-all.js"></script>
+  <script src="./tweet_scripts/nav_functions.js"></script>
+  <script src="./tweet_scripts/delete-tweet.js"></script>
   <script src="./homePage/script.js"></script>
 </html>
-
-
-<!--
-
-            <div
-              class="bg-dark-subtle border border-secondary p-2 rounded mb-3"
-            >
-              <p class="username">
-                <a href="/profile/user11" class="profile-link bold white1"
-                  >user11</a
-                >
-              </p>
-              <p class="message">Anyone up for a game tonight?</p>
-
-              <div class="horizontal flex gap-5px">
-                <div class="flex gap-5px margin-right-5px">
-                  <img
-                    src="./resources/svg/heart-filled.svg"
-                    alt="heart"
-                    class="heart-button clickable"
-                  />
-                  6
-                </div>
-                <div class="flex gap-5px">
-                  <img
-                    src="./resources/svg/comment.svg"
-                    alt="comment"
-                    class="comment-button clickable"
-                    data-bs-toggle="modal"
-                    data-bs-target="#commentPopUp"
-                  />
-                  2
-                </div>
-
-                <div class="date white3">3:26 14.07.2024</div>
-              </div>
-            </div>
-            <div
-              class="bg-dark-subtle border border-secondary p-2 rounded mb-3"
-            >
-              <p class="username">
-                <a href="/profile/user1" class="profile-link bold white1"
-                  >user1</a
-                >
-              </p>
-              <p class="message">I don't like this platform</p>
-
-              <div class="horizontal flex gap-5px">
-                <div class="flex gap-5px margin-right-5px">
-                  <img
-                    src="./resources/svg/heart-filled.svg"
-                    alt="heart"
-                    class="heart-button clickable"
-                  />
-                  4
-                </div>
-                <div class="flex gap-5px">
-                  <img
-                    src="./resources/svg/comment.svg"
-                    alt="comment"
-                    class="comment-button clickable"
-                    data-bs-toggle="modal"
-                    data-bs-target="#commentPopUp"
-                  />
-                  1
-                </div>
-
-                <div class="date white3">3:11 14.07.2024</div>
-              </div>
-            </div>
-            <div
-              class="bg-dark-subtle border border-secondary p-2 rounded mb-3"
-            >
-              <p class="username">
-                <a href="/profile/user8" class="profile-link bold white1"
-                  >user8</a
-                >
-              </p>
-              <p class="message">Just had a great lunch!</p>
-
-              <div class="horizontal flex gap-5px">
-                <div class="flex gap-5px margin-right-5px">
-                  <img
-                    src="./resources/svg/heart-filled.svg"
-                    alt="heart"
-                    class="heart-button clickable"
-                  />
-                  5
-                </div>
-                <div class="flex gap-5px">
-                  <img
-                    src="./resources/svg/comment.svg"
-                    alt="comment"
-                    class="comment-button clickable"
-                    data-bs-toggle="modal"
-                    data-bs-target="#commentPopUp"
-                  />
-                  2
-                </div>
-
-                <div class="date white3">3:21 14.07.2024</div>
-              </div>
-            </div>
-            <div
-              class="bg-dark-subtle border border-secondary p-2 rounded mb-3"
-            >
-              <p class="username">
-                <a href="/profile/user6" class="profile-link bold white1"
-                  >user6</a
-                >
-              </p>
-              <p class="message">Need some help with this feature.</p>
-
-              <div class="horizontal flex gap-5px">
-                <div class="flex gap-5px margin-right-5px">
-                  <img
-                    src="./resources/svg/heart-empty.svg"
-                    alt="heart"
-                    class="heart-button clickable"
-                  />
-                  2
-                </div>
-                <div class="flex gap-5px">
-                  <img
-                    src="./resources/svg/comment.svg"
-                    alt="comment"
-                    class="comment-button clickable"
-                    data-bs-toggle="modal"
-                    data-bs-target="#commentPopUp"
-                  />
-                  1
-                </div>
-
-                <div class="date white3">3:18 14.07.2024</div>
-              </div>
-            </div>
-            <div
-              class="bg-dark-subtle border border-secondary p-2 rounded mb-3"
-            >
-              <p class="username">
-                <a href="/profile/user3" class="profile-link bold white1"
-                  >user3</a
-                >
-              </p>
-              <p class="message">This is an amazing platform!</p>
-
-              <div class="horizontal flex gap-5px">
-                <div class="flex gap-5px margin-right-5px">
-                  <img
-                    src="./resources/svg/heart-empty.svg"
-                    alt="heart"
-                    class="heart-button clickable"
-                  />
-                  4
-                </div>
-                <div class="flex gap-5px">
-                  <img
-                    src="./resources/svg/comment.svg"
-                    alt="comment"
-                    class="comment-button clickable"
-                    data-bs-toggle="modal"
-                    data-bs-target="#commentPopUp"
-                  />
-                  2
-                </div>
-
-                <div class="date white3">3:13 14.07.2024</div>
-              </div>
-            </div>
-
-
--->

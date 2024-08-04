@@ -7,7 +7,13 @@ import {getalltweets,getusertweet,getusertweets} from './tweet/GET.js';
 import {deletetweet} from './tweet/DELETE.js';
 import {updatetweet} from './tweet/PATCH.js';
 import { createtweet } from './tweet/POST.js';
-import apiSettings from './apiSettings.json' with {type: "json"};
+
+import * as dotenv from 'dotenv'
+dotenv.config()
+const apiSettings = {
+    url: process.env.API_URL,
+    key: process.env.API_TOKEN
+}
 
 export async function getAllUsers() {
    return await getall(apiSettings);
