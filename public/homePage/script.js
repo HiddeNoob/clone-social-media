@@ -1,8 +1,11 @@
 
 
-setUserToLocalStorage();
-setPersonHref();
 reloadTweets()
+
+document.addEventListener('DOMContentLoaded', async () => {
+    await setUserToLocalStorage();
+    setPersonHref();
+});
 
 
 

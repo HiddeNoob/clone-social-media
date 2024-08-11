@@ -86,18 +86,11 @@ tweet.post('/tweet',checkAuthenticate,bodyParser.json(),async (req, res) => {
             "liked_users": [],
             "comments": []
         }
-        let currentUserInfo = await getUser(req.user.username).then((response) => response.json())
-        currentUserInfo.tweets_id.push(createdTime) 
-        if(updateUser(req.user.username,"tweets_id",currentUserInfo.tweets_id).then((response) => response.status == 200)){
-            console.log("user update success")
-            if(createTweet(req.user.username,createdTime,newTweet).then((response) => response.status == 200))
-                console.log("tweet create success")
-            else
-                throw new Error("tweet create failed")
-        }
-        else{
-            throw new Error("user update failed")
-        }
+        if(createTweet(req.user.username,createdTime,newTweet).then((response) => response.status == 200))
+            console.log("tweet create success")
+        else
+            throw new Error("tweet create failed")
+
         res.status(200).send({
             message: "Success",
             data : {

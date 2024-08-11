@@ -1,7 +1,7 @@
 import express from "express";
 import bodyParser from "body-parser";
 import {generateAccessToken} from "../../jwt.js";
-import {getUser} from "../../api/api.js";
+import {getUser,createUser} from "../../api/api.js";
 import bcrypt from 'bcrypt';
 
 export const auth = express.Router();
@@ -21,7 +21,6 @@ auth.post('/register', bodyParser.json(),async (req, res) => {
                 user_name: username,
                 password: hashedPassword,
                 createTime: Math.floor(Date.now()/1000),
-                tweets_id: [],
                 followers: [],
                 following: []
             }

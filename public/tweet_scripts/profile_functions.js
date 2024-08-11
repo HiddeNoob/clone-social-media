@@ -11,8 +11,11 @@ async function setProfileInfo(searchingUser){
         document.getElementById('user-name').innerHTML = data.user_name;
         document.getElementById('follower-count').innerHTML = data.followers.length;
         document.getElementById('following-count').innerHTML = data.following.length;
-        document.getElementById('joined-date').innerHTML =  `${tweetDate.getHours() < 10 ? "0" + tweetDate.getHours() : tweetDate.getHours()}:${tweetDate.getMinutes() < 10 ? "0" + tweetDate.getMinutes() : tweetDate.getMinutes()} ${tweetDate.toLocaleDateString()}`
-        ;
+        document.getElementById('joined-date').innerHTML =  `${tweetDate.getHours() < 10 ? "0" + tweetDate.getHours() : tweetDate.getHours()}:${tweetDate.getMinutes() < 10 ? "0" + tweetDate.getMinutes() : tweetDate.getMinutes()} ${tweetDate.toLocaleDateString()}`;
+        const followButton = document.getElementById('follow-button');
+        if (followButton) {
+            followButton.innerText = data.followers.includes(localStorage.getItem("username")) ? "Unfollow" : "Follow";
+        }
     }).catch((error) => {
         console.error(error);
     });
@@ -20,7 +23,7 @@ async function setProfileInfo(searchingUser){
 }
 
 document.addEventListener('DOMContentLoaded', async () => {
-    const searchingUser = window.location.pathname.slice(9); 
+    const searchingUser = window.location.pathname.slice(9); // this function cuts the link and gets the searching user
     setPersonHref();
     setProfileInfo(searchingUser);
     showLoadingGif("tweets");

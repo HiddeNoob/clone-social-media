@@ -23,7 +23,7 @@
           <a href="/home"><img src="./resources/svg/home.svg" alt="home" /></a>
         </li>
         <li>
-          <a href="/profile/#" id="my-profile"
+          <a href="/profile/alihan" id="my-profile"
             ><img src="./resources/svg/person.svg" alt="person"
           /></a>
         </li>
@@ -31,6 +31,9 @@
           <a href="/settings"
             ><img src="./resources/svg/gear.svg" alt="settings"
           /></a>
+        </li>
+        <li>
+            <img src="./resources/svg/exit-door.svg" alt="exit-door" onclick="logout();" class="clickable">
         </li>
       </ul>
     </nav>
@@ -41,25 +44,8 @@
     <div class="main">
           <h1 class="p-4 text-white">Settings</h2>
           <div class="mx-4 fs-5  d-flex gap-4 p-4 phone-bend flex-row justify-content-center align-items-center">
-            <form action="/settings" method="post" class="p-3 border rounded">
-              <h4 class="ms-1 mt-1 mb-2 me-2">Change nickname</h2>
-              <div class="container ">
-                <div class="row gap-4">
-                    <div>
-                      <label for="username" class="form-label text-white">user name</label>
-                      <input type="text" class="form-control" id="username2" />
-                    </div>
-                    <div>
-                      <label for="username" class="form-label text-white">confirm new user name</label>
-                      <input type="text" class="form-control" id="username2" />
-                    </div>
-                    <button type="submit" class="btn btn-primary" id="save">Update</button>
-                </div>
-              </div>
-            </form>
-              <form action="/settings" method="post" class="p-3 border rounded">
+              <div class="p-3 border rounded">
                 <h4 class="text-light ms-1 mt-1 mb-2 me-2">Change password</h2>
-
                 <div class="container ">
                   <div class="row gap-4">
                       <div>
@@ -73,7 +59,7 @@
                       <button type="submit" class="btn btn-primary" id="save">Update</button>
                   </div>
                 </div>
-              </form>
+              </div>
             
             
           </div>

@@ -13,13 +13,28 @@
 </head>
     <body >
 
-        <nav class="">
-            <ul class="for-phone position-fixed m-0 bg-body-secondary rounded-end-4 p-2 flex d-flex d-flex flex-column justify-content-around h-100 list-unstyled for-phone-nav">
-                <li><a href="/home"><img src="./resources/svg/home.svg" alt="home" ></a></li>
-                <li><a href="/person/your_name" id="my-profile"><img src="./resources/svg/person.svg" alt="person" ></a></li>
-                <li><a href="/settings"><img src="./resources/svg/gear.svg" alt="settings"></a></li>
+        <nav>
+            <ul
+              class="position-fixed bg-body-secondary rounded-end-4 p-2 d-flex flex-column justify-content-around h-100 list-unstyled for-phone"
+            >
+              <li>
+                <a href="/home"><img src="./resources/svg/home.svg" alt="home" /></a>
+              </li>
+              <li>
+                <a href="/profile/alihan" id="my-profile"
+                  ><img src="./resources/svg/person.svg" alt="person"
+                /></a>
+              </li>
+              <li>
+                <a href="/settings"
+                  ><img src="./resources/svg/gear.svg" alt="settings"
+                /></a>
+              </li>
+              <li>
+                  <img src="./resources/svg/exit-door.svg" alt="exit-door" onclick="logout();" class="clickable">
+              </li>
             </ul>
-        </nav>
+          </nav>
 
         <div class="fs-6 main">
             <main class="mx-2 py-4 ">
@@ -90,5 +105,6 @@
     <script src="./tweet_scripts/tweet_functions.js"></script>
     <script src="./tweet_scripts/get-user-tweets.js"></script>
     <script src="./tweet_scripts/nav_functions.js"></script>
+    <script src="./tweet_scripts/delete-tweet.js"></script>
     <script src="./tweet_scripts/profile_functions.js"></script>
 </html>
