@@ -32,13 +32,13 @@ user.get('/user/:user_name',checkAuthenticate,async (req, res) => {
 
 user.get('/me',checkAuthenticate,async (req, res) => {
     
-    res.send(req.user);
+    res.send({username : req.user.username});
 
 });
 
-user.post('/user/changePassword',checkAuthenticate,bodyParser.json(),async (req, res) => {
+user.post('/me/changePassword',checkAuthenticate,bodyParser.json(),async (req, res) => {
     try{
-        const user = await updateUser(req.user.user_name,"password",await hashPassword(req.body.password)).then((data) => {
+        const user = await updateUser(req.user.username,"password",await hashPassword(req.body.password)).then((data) => {
             if(data.ok){
                 return data.json()
             }else{
