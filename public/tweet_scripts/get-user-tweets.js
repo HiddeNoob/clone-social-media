@@ -1,7 +1,3 @@
-
-
-
-
 async function loadUserTweets(object_id,searchingUser,loggedInUser){
     const tweetElements = findElement(object_id);
     await fetch(`/api/v1/tweet/${searchingUser}`).then((response) => { // get users tweets from local api

@@ -15,6 +15,7 @@ user.get('/user/:user_name',checkAuthenticate,async (req, res) => {
                 throw new Error(data.statusText)
             }
         })
+        delete user['password'] // client musn't reach to password
         res.status(200).send({
             "message": "Success",
             "data" : user

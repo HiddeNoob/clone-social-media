@@ -9,6 +9,7 @@ function createFunctionalTweetElement(tweet,loggedUser){
         const changeLikeCount = (heartButton, count) => {
             heartButton.nextSibling.textContent = count;
         };
+        
         heartButton.addEventListener('click', () => {
             const currentLikeState = switchLikeState(heartButton); // first like the tweet
             changeLikeCount(heartButton, currentLikeState ? +heartButton.nextSibling.textContent + 1 : +heartButton.nextSibling.textContent - 1 ); // change the like count according to the like state
@@ -27,11 +28,10 @@ function createFunctionalTweetElement(tweet,loggedUser){
         return tweetElement;
 }
 
-
-
 function showComments(tweet){
     const comments = tweet.comments;
     const body = document.getElementById('popup-body');
+    document.getElementById('popup-title').innerText = "Comments";
     const commentElements = document.createElement('div');
     commentElements.id = "comment-elements";
     body.innerHTML = '';

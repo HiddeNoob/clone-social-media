@@ -1,5 +1,4 @@
 /*** 
-
     user = {
         user_name: string,password: string,createTime: number,tweets_id: list,
     }
