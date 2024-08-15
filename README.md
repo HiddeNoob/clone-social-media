@@ -1,4 +1,5 @@
 
+
 **How To Run**
 
     > npm install
@@ -7,7 +8,7 @@
 ## Deployment
 i deploy the app with aws ec2 on ubuntu.
 project will be a live on network for a while.
-you can reach the live project [here]([website](http://100.25.199.108/))
+you can reach the live project [here](http://100.25.199.108/)
 
 ## About App
 
