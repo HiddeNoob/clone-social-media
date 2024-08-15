@@ -9,6 +9,7 @@
 i deploy the app with aws ec2 on ubuntu.
 project will be a live on network for a while.
 you can reach the live project [here](http://100.25.199.108/)
+make sure you're trying to reach with http if not, you can't access
 
 ## About App
 
