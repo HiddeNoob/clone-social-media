@@ -6,6 +6,7 @@ import morgan from "morgan";
 import cookieParser from "cookie-parser";
 import {tweet} from "./routes/backend/api/tweet.js";
 import {user} from "./routes/backend/api/user.js";
+import {image} from "./routes/backend/api/image.js";
 import {auth} from "./routes/backend/auth.js";
 import {endpoints} from "./routes/frontend/endpoints.js";
 import fs from "fs";
@@ -40,6 +41,8 @@ app.get('/logout', (req, res) => {
 app.use('',auth);
 
 app.use('/api/v1', tweet);
+
+app.use('/api/v1',bodyParser.text({type : '*/*', limit : "1mb"}), image);
 
 app.use('/api/v1', user);
 
