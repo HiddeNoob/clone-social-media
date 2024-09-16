@@ -42,7 +42,7 @@ app.use('',auth);
 
 app.use('/api/v1', tweet);
 
-app.use('/api/v1',bodyParser.text({type : '*/*', limit : "1mb"}), image);
+app.use('/api/v1',bodyParser.text({type : '*/*', limit : "10mb"}), image);
 
 app.use('/api/v1', user);
 

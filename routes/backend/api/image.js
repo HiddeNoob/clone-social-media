@@ -3,6 +3,7 @@ import { checkAuthenticate } from "../../../jwt.js";
 import { getImage, uploadImage } from "../../../api/api.js";
 export const image = express.Router();
 import sharp from "sharp";
+import { __dirname } from "../../../index.js";
 
 image.post('/image',checkAuthenticate,async (req, res) => {
     let photo = req.body
@@ -20,7 +21,7 @@ image.get('/image/:username',async (req, res) => {
             res.send(Buffer.from(buf))
         });
     }else{
-        res.sendStatus(404)
+        res.sendFile(__dirname + "/public/resources/svg/person.svg")
     }
 });
 

@@ -42,6 +42,16 @@ document.getElementById('update-password').addEventListener('click', async () =>
 
 document.getElementById("getFile").addEventListener("change",(event) => {
     let selectedFile = event.target.files[0] // get file from user
+    var informationElement = document.getElementById("upload-process-message")
+    if(selectedFile.size >= 1048576 * 4){ // 4 MB
+        informationElement.classList.add("text-danger")
+        informationElement.classList.remove("d-none")
+        informationElement.innerText = "Your file must be less than 4 MB"
+        return
+    }else{
+        informationElement.classList.add("d-none")
+    }
+
     var image = document.createElement("img")
     image.classList.add("w-100")
     image.src = URL.createObjectURL(selectedFile)
@@ -55,9 +65,8 @@ document.getElementById("getFile").addEventListener("change",(event) => {
 
     var minCroppedWidth = 50;
     var minCroppedHeight = 50;
-    var maxCroppedWidth = 1000;
-    var maxCroppedHeight = 1000;
-
+    var maxCroppedWidth = 2000;
+    var maxCroppedHeight = 3000;
     var croppable = false;
     var cropper = new Cropper(image, {
         viewMode : 2,
@@ -76,18 +85,16 @@ document.getElementById("getFile").addEventListener("change",(event) => {
         if (
             width < minCroppedWidth
             || height < minCroppedHeight
-            || width > maxCroppedWidth
-            || height > maxCroppedHeight
         ) {
             cropper.setData({
-            width: Math.max(minCroppedWidth, Math.min(maxCroppedWidth, width)),
-            height: Math.max(minCroppedHeight, Math.min(maxCroppedHeight, height)),
+            width: Math.max(minCroppedWidth, width),
+            height: Math.max(minCroppedHeight, height),
             });
         }
         },
     });
 
-    button.onclick = function () {
+    button.onclick = async function () {
         var croppedCanvas;
         var roundedCanvas;
 
@@ -102,19 +109,31 @@ document.getElementById("getFile").addEventListener("change",(event) => {
         roundedCanvas = getRoundedCanvas(croppedCanvas);
 
         // uplaod
-        url = roundedCanvas.toDataURL("image/png")
+        let base64image = roundedCanvas.toDataURL("image/png");
+        
+        button.innerHTML = "<img src = '/resources/gif/loadingGif.gif' height = 25px ></img>";
+        response = await sendImage(base64image);
+        informationElement.classList.remove("d-none")
+        if(!response){
+            informationElement.classList.add("text-danger")
+            informationElement.innerText = "Photo couldn't uploaded to server";
+        }
+        else{
+            informationElement.classList.add("text-success")
+            informationElement.innerText = "File uploaded successfully";
+        }
+        button.innerHTML = "Upload"
 
-        sendImage(url)
     };
 })
 
 async function sendImage(image){
-    return fetch("/api/v1/image",{
+    return await fetch("/api/v1/image",{
         headers : {
             "Content-Type" : "image/png"
         },
         method : "POST",
-        body: url
+        body: image
     })
     .then((response) => response.ok)
     .catch((error) => console.error(error))
