@@ -118,13 +118,19 @@ function createTweetElement(tweet,loggedInUser){
     const starthtml = (isOwner ? 
     `  
     <div class="d-flex flex-row justify-content-between"> 
-        <h5 > <a href="/profile/${tweet.user_name}" >${tweet.user_name}</a> </h5>
+        <div class = "d-flex flex-row gap-1 align-items-center">
+            <img height = 40px src="/api/v1/image/${tweet.user_name}" >
+            <h5  > <a href="/profile/${tweet.user_name}" >${tweet.user_name}</a> </h5>
+        </div>
         <img src="/resources/svg/trash-can.svg" id="delete-tweet" class="remove clickable">
     </div>
     `
     :
     `  
-    <h5 > <a href="/profile/${tweet.user_name}" >${tweet.user_name}</a> </h5>
+        <div class = "d-flex flex-row gap-1 align-items-center">
+            <img height = 40px src="/api/v1/image/${tweet.user_name}" >
+            <h5  > <a href="/profile/${tweet.user_name}" >${tweet.user_name}</a> </h5>
+        </div>
     `)
     const continuehtml = `<p class = "my-4"> ${tweet.tweet}</p>
 

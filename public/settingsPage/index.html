@@ -11,6 +11,7 @@
       integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH"
       crossorigin="anonymous"
     />
+    <link rel="stylesheet" href="/crop-image/cropper.min.css">
     <link rel="stylesheet" href="/common_css/navigator.css">
     <link rel="stylesheet" href="/settingsPage/style.css" />
   </head>
@@ -42,23 +43,41 @@
 
 
     <div class="main">
-          <h1 class="p-4 text-white">Settings</h2>
-          <div class="mx-4 fs-5  d-flex gap-4 p-4 phone-bend flex-row justify-content-center align-items-center">
-              <div class="p-3 border rounded">
+          <h1 class="pt-3 ps-3 text-white">Settings</h2>
+          <div class="mx-4 fs-5 gap-4 p-4 pt-6 phone-bend  ">
+              <div class="p-3 col mb-4 border rounded">
                 <h4 class="text-light ms-1 mt-1 mb-2 me-2">Change password</h2>
-                <div class="container ">
-                  <div class="row gap-4">
-                      <div>
+                <div class="container h-100 ">
+                  <div class="h-100">
+                      <div class="mb-4">
                         <label for="password1" class="form-label text-white">password</label>
                         <input type="text" class="form-control" id="password1" />
                       </div>
-                      <div>
+                      <div class="mb-4">
                         <label for="password2" class="form-label text-white">confirm new password</label>
                         <input type="text" class="form-control" id="password2" />
                       </div>
-                      <span id="process-message" class="fs-6 overflow-wrap d-none"></span>
-                      <button type="submit" class="btn btn-primary" id="update-password">Update</button>
+                      <div class="">
+                        <span id="process-message" class="fs-6 overflow-wrap d-none"></span>
+                        <button type="submit" class="btn btn-primary w-100" id="update-password">Update</button>
+                      </div>
                   </div>
+                </div>
+              </div>
+              <div class="p-3 col border rounded">
+                <h4 class="text-light ms-1 mt-1 mb-2 me-2">Change profile picture</h2>
+                <div class="d-flex flex-column container h-100">
+                    <div>
+                      <button class="btn btn-secondary w-100" onclick="document.getElementById('getFile').click()">Upload Image</button>
+                      <input type='file' id="getFile" style="display:none" accept="image/png, image/jpeg">
+                    </div>
+                    <div id="photo-preview" style="height: 300px; width: 100%;" class="mb-4 mt-4">
+                        <div class="bg-body-secondary text-center h-100 d-flex justify-content-center align-items-center">
+                            upload to preview image
+                        </div>
+                    </div>
+                    <span id="upload-process-message" class="fs-6 overflow-wrap d-none mb-3"></span>
+                    <button type="submit" class="btn btn-primary w-100 mt-auto" id="upload-image">Update</button>
                 </div>
               </div>
             
@@ -71,6 +90,7 @@
     integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz"
     crossorigin="anonymous"
   ></script>
+  <script src="./crop-image/cropper.min.js"></script>
   <script src="./tweet_scripts/nav_functions.js"></script>
   <script src="./settingsPage/script.js"></script>
 </html>

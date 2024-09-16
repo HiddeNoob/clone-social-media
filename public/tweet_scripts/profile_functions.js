@@ -6,7 +6,7 @@ async function setProfileInfo(searchingUser){
             return response.json();
         else
             throw Error(response.status + ": " + response.message);
-    }).then((data) => {
+    }).then(async (data) => {
         data = data.data;
         currentUser = data;
         tweetDate = new Date(data.createTime * 1000);
@@ -14,6 +14,7 @@ async function setProfileInfo(searchingUser){
         document.getElementById('follower-count').innerHTML = data.followers.length;
         document.getElementById('following-count').innerHTML = data.following.length;
         document.getElementById('joined-date').innerHTML =  `${tweetDate.getHours() < 10 ? "0" + tweetDate.getHours() : tweetDate.getHours()}:${tweetDate.getMinutes() < 10 ? "0" + tweetDate.getMinutes() : tweetDate.getMinutes()} ${tweetDate.toLocaleDateString()}`;
+        document.getElementById('profile-pic').src = `./api/v1/image/${data.user_name}`;
         const followButton = document.getElementById('follow-button');
         if (followButton) {
             followButton.innerText = data.followers.includes(localStorage.getItem("username")) ? "Unfollow" : "Follow";
@@ -107,7 +108,7 @@ function createUserPreviewItem(username){
     object.classList.add('border','p-3','d-flex','justify-content-between','rounded','mb-2');
     object.innerHTML = 
     `
-        <div> <img height="25" src="./resources/svg/person.svg"> <a href="./profile/${username}"> ${username} </a> </div>
+        <div> <img height="25" src="./api/v1/image/${username}"> <a href="./profile/${username}"> ${username} </a> </div>
     `
     return object;
 }

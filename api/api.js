@@ -9,6 +9,8 @@ import {updatetweet} from './tweet/PATCH.js';
 import { createtweet } from './tweet/POST.js';
 
 import * as dotenv from 'dotenv'
+import { getimg } from './photo/GET.js';
+import { uploadimg } from './photo/PUT.js';
 dotenv.config()
 const apiSettings = {
     url: process.env.API_URL,
@@ -32,14 +34,11 @@ export async function deleteUser(username) {
 }
 
 
-/** 
-    user = {
-        user_name: string, password: string, createTime: number, tweets_id: list,
-    }
-**/
 export async function createUser(user) {
     return await create(apiSettings, user);
 }
+
+/////////////////////////////////////////
 
 export async function getAllTweets(){
     return await getalltweets(apiSettings);
@@ -63,6 +62,15 @@ export async function createTweet(user_name, tweet_id, tweet_body){
 
 export async function deleteTweet(user_name, tweet_id){
     return await deletetweet(apiSettings, user_name, tweet_id);
+}
+
+///////////////////
+
+export async function getImage(file_name) {
+    return await getimg(apiSettings, file_name)
+}
+export async function uploadImage(photo_data,file_name,data_type) {
+    return await uploadimg(apiSettings, photo_data,file_name,data_type)
 }
 
 
