@@ -6,7 +6,7 @@ async function setProfileInfo(searchingUser){
             return response.json();
         else
             throw Error(response.status + ": " + response.message);
-    }).then((data) => {
+    }).then(async (data) => {
         data = data.data;
         currentUser = data;
         tweetDate = new Date(data.createTime * 1000);
@@ -14,6 +14,10 @@ async function setProfileInfo(searchingUser){
         document.getElementById('follower-count').innerHTML = data.followers.length;
         document.getElementById('following-count').innerHTML = data.following.length;
         document.getElementById('joined-date').innerHTML =  `${tweetDate.getHours() < 10 ? "0" + tweetDate.getHours() : tweetDate.getHours()}:${tweetDate.getMinutes() < 10 ? "0" + tweetDate.getMinutes() : tweetDate.getMinutes()} ${tweetDate.toLocaleDateString()}`;
+        let isHavePicture = await fetch(`./api/v1/image/${data.user_name}`).then((res) => res.status == 200)
+        if(isHavePicture){
+            document.getElementById('profile-pic').src = `./api/v1/image/${data.user_name}`;
+        }
         const followButton = document.getElementById('follow-button');
         if (followButton) {
             followButton.innerText = data.followers.includes(localStorage.getItem("username")) ? "Unfollow" : "Follow";

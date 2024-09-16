@@ -4,14 +4,7 @@ export async function getimg(apiSettings,file_name){
         "x-api-key" : apiSettings.key
       },
       method: "GET",
-      responseType: 'blob'
-    }).then(async (data) => await data.blob()).then((response) => {
-      console.log(response)
-      const image = document.createElement('img') 
-      image.src = URL.createObjectURL(response)
-      return image
-    }
-    ).catch(
-      error => console.log(error) 
-    );
+    })
+    .then(async (data) => await data.blob())
+    .catch(error => console.log(error));
 };
