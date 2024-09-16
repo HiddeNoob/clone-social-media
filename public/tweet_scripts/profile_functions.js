@@ -72,7 +72,8 @@ if(followButton) // if user in someones profile follow button is going to appear
             throw Error(response.status + ": " + response.message);
     }).then((data) => {
         console.log(data)
-        currentUser = data;
+        currentUser.followers = data.data;
+        document.getElementById('follower-count').innerHTML = currentUser.followers.length;
         document.getElementById('follow-button').innerText = followState ? "Follow" : "Unfollow";
     }).catch((error) => {
         console.error(error);
